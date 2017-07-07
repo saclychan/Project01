@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ngocamha.com.project01.activity.AddTransction">
+
+    <TextView
+        android:id="@+id/tvAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tài khoản" />
+
+    <Spinner
+        android:id="@+id/sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAccount">
+
+
+    </Spinner>
+
+    <RadioGroup
+        android:id="@+id/gr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sp">
+
+        <RadioButton
+            android:id="@+id/rd_expenditure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khoản chi" />
+
+        <RadioButton
+            android:id="@+id/rd_revenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khoản chi" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edtPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gr"
+        android:hint="Nhap so tien" />
+
+    <EditText
+        android:id="@+id/edt_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtPrice"
+        android:hint="Nhap so tien" />
+
+    <LinearLayout
+        android:id="@+id/gr_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_reason">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_datetime_picker"
+            android:padding="8dp"
+            android:gravity="center"
+
+            android:text="25/06/2017"
+            android:textColor="#fff" />
+
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_reason"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:layout_marginRight="40dp"
+            android:layout_toRightOf="@+id/tvDate"
+            android:layout_weight="1"
+            android:background="@drawable/bg_datetime_picker"
+            android:padding="8dp"
+            android:text="15:38"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gr_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn"
+            android:text="Lưu"
+            android:textColor="#fff" />
+
+
+        <Button
+            android:id="@+id/btn_save_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn"
+            android:text="Lưu và đóng"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+</RelativeLayout>

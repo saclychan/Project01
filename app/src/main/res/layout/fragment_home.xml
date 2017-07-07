@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/fragment_home"
+    android:layout_height="match_parent"
+    tools:context="ngocamha.com.project01.activity.MainActivity">
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:id="@+id/group_func"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/r1"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_weight="1"
+                android:background="@drawable/bg_btn"
+                android:id="@+id/add_transaction"
+                android:text="@string/add_transaction"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:textColor="#fff"
+                android:layout_width="0dp"
+                android:layout_height="36dp" />
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/report_transaction"
+                android:layout_toRightOf="@+id/add_transaction"
+                android:text="@string/report_transaction"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/bg_btn"
+                android:textColor="#fff"
+                android:layout_width="0dp"
+                android:layout_height="36dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_below="@+id/r1"
+            android:id="@+id/r2"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/account_management"
+                android:text="@string/account_management"
+                android:background="@drawable/bg_btn"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:textColor="#fff"
+                android:layout_width="0dp"
+                android:layout_height="36dp" />
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/btn_about"
+                android:text="@string/app_about"
+                android:layout_width="0dp"
+                android:background="@drawable/bg_btn"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:textColor="#fff"
+                android:layout_height="36dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

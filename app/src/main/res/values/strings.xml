@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Project01</string>
+    <string name="add_transaction">Thêm giao dịch</string>
+    <string name="report_transaction">Thống kê giao dịch</string>
+    <string name="account_management">Quản lý tài khoản</string>
+    <string name="app_about">Giới thiệu</string>
+    <string name="title_activity_account_management">AccountManagementActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

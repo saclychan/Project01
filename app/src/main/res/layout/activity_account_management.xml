@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ngocamha.com.project01.activity.AccountManagementActivity">
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:divider="@android:color/transparent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/grFormAdd"
+        android:layout_alignParentTop="true"></ListView>
+
+    <RelativeLayout
+        android:id="@+id/grFormAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/edtAddAccount"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_toLeftOf="@+id/btn_add"
+            android:hint="Thêm danh mục quản lý" />
+
+        <EditText
+            android:id="@+id/edtAddPrice"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/edtAddAccount"
+            android:layout_toLeftOf="@+id/btn_add"
+            android:hint="Số tiền" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="96dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_btn"
+            android:textColor="#fff"
+            android:text="Thêm" />
+    </RelativeLayout>
+</RelativeLayout>
