@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLiteDatabase extends SQLiteOpenHelper {
     public static  final  String DB_NAME = "QuanLyChiTieu.db";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 7;
     public static final String TABLE_ACCOUNT = "tbl_account";
     public static final String TABLE_TRANSACTION = "tbl_transaction";
 
@@ -40,7 +40,7 @@ public class SQLiteDatabase extends SQLiteOpenHelper {
 
     public static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE "+ TABLE_TRANSACTION + "( "
             + COLUMN_TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_TRANSACTION_TYPE + " TEXT ,"
+            + COLUMN_TRANSACTION_TYPE + " INTEGER ,"
             + COLUMN_TRANSACTION_MONEY + " INTEGER ,"
             + COLUMN_TRANSACTION_REASON + " TEXT ,"
             + COLUMN_TRANSACTION_ACTION_TIME + " TEXT ,"
@@ -70,11 +70,13 @@ public class SQLiteDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(android.database.sqlite.SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        String drop1 = "DROP TABLE IF EXITS "+ TABLE_ACCOUNT;
+        String drop1 = "DROP TABLE IF EXISTS "+ TABLE_ACCOUNT;
         sqLiteDatabase.execSQL(drop1);
 
-        String drop2 = "DROP TABLE IF EXITS "+ TABLE_TRANSACTION;
+        String drop2 = "DROP TABLE IF EXISTS "+ TABLE_TRANSACTION;
         sqLiteDatabase.execSQL(drop2);
+
+        onCreate(sqLiteDatabase);
     }
 
     public long insertAccount(ContentValues values){
@@ -100,5 +102,8 @@ public class SQLiteDatabase extends SQLiteOpenHelper {
     public Cursor rawQuery(String sql){
         return getReadableDatabase().rawQuery(sql, null);
     }
-     
+
+    public Cursor query(String tableName, String [] columns, String where , String[] args, String groupBy, String orderBy, String limit) {
+        return getReadableDatabase().query(tableName, columns, where, args, groupBy,orderBy, limit);
+    }
 }

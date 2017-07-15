@@ -1,6 +1,7 @@
 package ngocamha.com.project01.fragment;
 
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,17 +39,26 @@ public class AccountManagerFragment extends Fragment {
     private EditText mEditAddAccount;
     private EditText mEditAddPrice;
     private Button mBtnAdd;
-    private SQLiteDatabase mSqLiteDatabase;
+
     private ArrayList<ItemModel> mData;
     private ManagementAdapter mManagementAdapter;
+    private SQLiteDatabase mSqLiteDatabase;
+
+
     View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.activity_account_management, container, false);
+        mBtnAdd = (Button) mView.findViewById(R.id.btn_add);
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "btn xoa click", Toast.LENGTH_LONG).show();
 
-
+            }
+        });
 
         intView();
         ArrayList<ItemModel> data = getAccounts();
@@ -62,7 +73,28 @@ public class AccountManagerFragment extends Fragment {
         mEditAddAccount = (EditText) mView.findViewById(R.id.edtAddAccount);
         mEditAddPrice = (EditText) mView.findViewById(R.id.edtAddPrice);
         mBtnAdd = (Button) mView.findViewById(R.id.btn_add);
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO save database
+                String accountName = mEditAddAccount.getText().toString();
+                int price = Integer.parseInt(mEditAddPrice.getText().toString() );
+                mSqLiteDatabase  = new SQLiteDatabase(getActivity());
 
+                ContentValues values = new ContentValues();
+                values.put(SQLiteDatabase.COLUMN_ACCOUNT_NAME, accountName);
+                values.put(SQLiteDatabase.COLUMN_ACCOUNT_BALANCE, price);
+                Toast.makeText(getActivity(), "Add to database", Toast.LENGTH_SHORT).show();
+                mSqLiteDatabase.insertAccount(values);
+
+                //add vào data của listview để cập nhật lên giao diện
+                ItemModel itemnew  = new ItemModel(accountName, price);
+                mData.add(itemnew);
+                mManagementAdapter.notifyDataSetChanged();
+                mEditAddAccount.setText("");
+                mEditAddPrice.setText("");
+            }
+        });
     }
 
 

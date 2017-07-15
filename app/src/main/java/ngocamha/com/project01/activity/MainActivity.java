@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnA
         FragmentManager homeFragmentManager =  getSupportFragmentManager();
         FragmentTransaction homeFragmentTransaction = homeFragmentManager.beginTransaction();
         HomeFragment homeFragment =  HomeFragment.newInstance();
-        homeFragmentTransaction.replace(R.id.main_framelayout, homeFragment);
+        homeFragmentTransaction.replace(R.id.main_framelayout, homeFragment, "HomeFragment");
         homeFragmentTransaction.commit();
 
     }
@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnA
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         AccountManagerFragment accountManagerFragment = AccountManagerFragment.newInstance();
-        fragmentTransaction.replace(R.id.main_framelayout, accountManagerFragment);
+        HomeFragment homeFragment = (HomeFragment) fragmentManager.findFragmentByTag("HomeFragment"); //gọi tag
+        fragmentTransaction.hide(homeFragment); //ẩn theo tag
+        fragmentTransaction.add(R.id.main_framelayout, accountManagerFragment); //add cái frag ment mới
         fragmentTransaction.addToBackStack("onAccountManager");
         fragmentTransaction.commit();
 

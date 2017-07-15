@@ -1,6 +1,7 @@
 package ngocamha.com.project01.fragment;
 
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -57,6 +60,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Toast.makeText(getContext(), "HomeFragment onCreateView", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -139,7 +144,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.btn_about:
-                /*showAboutDialog();*/
+                showAboutDialog();
                 break;
 
 
@@ -157,5 +162,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     public interface OnAccountManagerListener{
         void onAccountManager();
+    }
+
+    private void showAboutDialog(){
+        final Dialog dialog =  new Dialog(getActivity());
+        dialog.getWindow();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater layoutInflater =  LayoutInflater.from(getActivity());
+        View view = layoutInflater.inflate(R.layout.item_custom_dialog, null, false);
+        Button btnClose = (Button) view.findViewById(R.id.btn_close);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(view);
+
+        dialog.show();
     }
 }
