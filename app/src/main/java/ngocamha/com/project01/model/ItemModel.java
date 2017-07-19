@@ -1,10 +1,12 @@
 package ngocamha.com.project01.model;
 
+import java.io.Serializable;
+
 /**
  * Created by PL on 6/21/2017.
  */
 
-public class ItemModel {
+public class ItemModel  implements Serializable{
     String txtAccount;
     int price;
     int id;

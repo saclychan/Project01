@@ -39,23 +39,6 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnA
 
     }
 
-    private void showAboutDialog(){
-        final Dialog dialog =  new Dialog(MainActivity.this);
-        dialog.getWindow();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater layoutInflater =  LayoutInflater.from(MainActivity.this);
-        View view = layoutInflater.inflate(R.layout.item_custom_dialog, null, false);
-        Button btnClose = (Button) view.findViewById(R.id.btn_close);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setContentView(view);
-
-        dialog.show();
-    }
 
     @Override
     public  void onAddTransaction() {

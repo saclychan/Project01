@@ -4,6 +4,7 @@ package ngocamha.com.project01.fragment;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -35,6 +36,9 @@ import ngocamha.com.project01.database.SQLiteDatabase;
 public class AddTransactionFragment extends Fragment implements View.OnClickListener,
         AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
 
+    public static final String ACTION_ADD_TRANSACTION = "ngocamha.com.project01.fragment.ACTION_ADD_TRANSACTION";
+    public static final String KEY_PRICE = "price";
+    public static final String KEY_ID  = "transaction_id";
     TextView tvDate;
     TextView tvTime;
     Spinner sp;
@@ -230,6 +234,7 @@ public class AddTransactionFragment extends Fragment implements View.OnClickList
 
         if(checkRes != 0){
             Toast.makeText(getActivity(), "Thành công", Toast.LENGTH_SHORT).show();
+            sendActionChangePriceToHomeFragment(newPrice, mIdSelected);
         }else{
             String messText =  "";
             for(String item : arrMess){
@@ -237,6 +242,14 @@ public class AddTransactionFragment extends Fragment implements View.OnClickList
             }
             Toast.makeText(getActivity(), "Thất bại vì lý do: "+messText, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void sendActionChangePriceToHomeFragment(int newPrice, int mIdSelected) {
+        Intent intent = new Intent();
+        intent.setAction(AddTransactionFragment.ACTION_ADD_TRANSACTION);
+        intent.putExtra(KEY_PRICE,newPrice );
+        intent.putExtra(KEY_ID, mIdSelected);
+        getActivity().sendBroadcast(intent);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ngocamha.com.project01.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import ngocamha.com.project01.database.SQLiteDatabase;
+import ngocamha.com.project01.fragment.AccountManagerFragment;
 import ngocamha.com.project01.model.ItemModel;
 import ngocamha.com.project01.R;
 
@@ -22,6 +24,7 @@ import ngocamha.com.project01.R;
 
 public class ManagementAdapter extends BaseAdapter{
 
+    public  static  final String KEY_ACTION_DELETE = "account_id";
     private Context mContext;
     private ArrayList<ItemModel> mData;
     private LayoutInflater mlayoutInflater;
@@ -78,15 +81,25 @@ public class ManagementAdapter extends BaseAdapter{
             @Override
             public void onClick(View view) {
                 String tmpId = viewHolder.tv_account_id.getText().toString();
-                Log.d("xoataikhoan" , "xoa xoa"+tmpId);
+                //Log.d("xoataikhoan" , "xoa xoa"+tmpId);
 
                 //làm thế nào để notify data set change
                 deleteItem(tmpId);
                 mData.remove(oneItem);
                 notifyDataSetChanged();
+
+                sendActionDeleteToHomeFragment(tmpId);
             }
         });
         return view;
+    }
+
+    private void sendActionDeleteToHomeFragment(String id) {
+        Intent intent  =  new Intent();
+        intent.setAction(AccountManagerFragment.ACTION_ADD_ACCOUNT);
+        intent.putExtra(KEY_ACTION_DELETE, id );
+        intent.putExtra("type", "remove");
+        mContext.sendBroadcast(intent);
     }
 
     public static class ViewHolder{

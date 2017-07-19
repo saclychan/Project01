@@ -2,16 +2,20 @@ package ngocamha.com.project01.fragment;
 
 
 import android.app.DatePickerDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,13 +23,14 @@ import java.util.Calendar;
 import ngocamha.com.project01.R;
 import ngocamha.com.project01.activity.StatisTransactionActivity;
 import ngocamha.com.project01.adapter.StatisAdapter;
+import ngocamha.com.project01.database.SQLiteDatabase;
 import ngocamha.com.project01.model.ItemModel;
 import ngocamha.com.project01.model.ItemModelStatisTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StatisTransactionFragment extends Fragment implements View.OnClickListener{
+public class StatisTransactionFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
     ArrayList<ItemModel> mData;
     Spinner spTypeTransaction;
@@ -34,7 +39,10 @@ public class StatisTransactionFragment extends Fragment implements View.OnClickL
     TextView mTvStartDate;
     TextView mTvEndDate;
     Calendar mcalendar =  Calendar.getInstance();
-
+    SQLiteDatabase mSqLiteDatabase;
+    ArrayList<Integer> mDataId;
+    int mIdAccountSelected;
+    ArrayList<String> dataTypeAccount;
 
     public StatisTransactionFragment() {
         // Required empty public constructor
@@ -50,7 +58,7 @@ public class StatisTransactionFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_statis_transaction, container, false);
-
+        Toast.makeText(getActivity(), "Báo cáo Fragment", Toast.LENGTH_SHORT).show();
         initView(view);
         setupTypeTransaction();
         setupTypeAccount();
@@ -73,18 +81,60 @@ public class StatisTransactionFragment extends Fragment implements View.OnClickL
 
     private void setupListReport() {
         ArrayList<ItemModelStatisTransaction> data = new ArrayList<ItemModelStatisTransaction>();
-        ItemModelStatisTransaction item1 = new ItemModelStatisTransaction("19/12/2017", "Trả nợ", 10000000, 1000000, "Ví điện tử", "Chi");
-        data.add(item1);
+
+        String startDate = mTvStartDate.getText().toString();
+        String endDate = mTvEndDate.getText().toString();
+
+
+        //sql get transaction
+        //SELECT * FROM tbl_transaction where account_id =2 and action_date_time between '2017-06-20 10' and '2017-06-30'  and type = 1
+        String sqlGetTransaction = "SELECT * FROM tbl_transaction  ";
+
+        Cursor cursor = mSqLiteDatabase.rawQuery(sqlGetTransaction);
+        if(cursor != null && cursor.moveToFirst()){
+            do {
+                String  transactionTime = cursor.getString(cursor.getColumnIndex(SQLiteDatabase.COLUMN_TRANSACTION_ACTION_TIME));
+                String transactionReason =  cursor.getString(cursor.getColumnIndex(SQLiteDatabase.COLUMN_TRANSACTION_REASON));
+                int transactionMoney =   cursor.getInt(cursor.getColumnIndex(SQLiteDatabase.COLUMN_TRANSACTION_MONEY));
+                int transactionRemainMoney  = cursor.getInt(cursor.getColumnIndex(SQLiteDatabase.COLUMN_TRANSACTION_REMAIN_MONEY));
+                int transactionType = cursor.getInt(cursor.getColumnIndex(SQLiteDatabase.COLUMN_TRANSACTION_TYPE ));
+                int accountId   = cursor.getInt(cursor.getColumnIndex(SQLiteDatabase.COLUMN_TRANSACTION_ACCOUNT_ID));
+                //String accountName = dataTypeAccount.get();
+                String strAccountName = transactionType==1?"Thu":"Chi";
+                ItemModelStatisTransaction item1 = new ItemModelStatisTransaction(transactionTime, transactionReason, transactionMoney, transactionRemainMoney, "Ví điện tử"+accountId, strAccountName);
+                data.add(item1);
+            }while(cursor.moveToNext());
+
+
+        }
+
+
+        ItemModelStatisTransaction item2 = new ItemModelStatisTransaction("19/12/2017", "Trả nợ", 10000000, 1000000, "Ví điện tử", "Chi");
+        data.add(item2);
 
         StatisAdapter adapter = new StatisAdapter(getContext(), data);
         lv.setAdapter(adapter);
     }
 
     private void setupTypeAccount() {
-        ArrayList<String> dataTypeAccount =  new ArrayList<>();
-        dataTypeAccount.add("Tien mat");
+        dataTypeAccount =  new ArrayList<>();
+        mSqLiteDatabase =  new SQLiteDatabase(getActivity());
+        String sql_get_account  = "SELECT * FROM "+SQLiteDatabase.TABLE_ACCOUNT;
+        Cursor cursor = mSqLiteDatabase.rawQuery(sql_get_account);
+        mDataId  = new ArrayList<>();
+        dataTypeAccount.add("Chọn tài khoản");
+        if(cursor != null && cursor.moveToFirst()){
+            do{
+                String accountName = cursor.getString(cursor.getColumnIndex(SQLiteDatabase.COLUMN_ACCOUNT_NAME));
+                int accountId = cursor.getInt(cursor.getColumnIndex(SQLiteDatabase.COLUMN_ACCOUNT_ID));
+                dataTypeAccount.add(accountName);
+                Log.d("StatisTranscaction","id selected "+mIdAccountSelected);
+                mDataId.add(accountId);
+            }while(cursor.moveToNext());
+        }
+        /*dataTypeAccount.add("Tien mat");
         dataTypeAccount.add("Tiet kiem");
-        dataTypeAccount.add("Tin dung");
+        dataTypeAccount.add("Tin dung");*/
 
         ArrayAdapter<String> spadapter  = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, dataTypeAccount);
         spTypeAccount.setAdapter(spadapter);
@@ -92,6 +142,7 @@ public class StatisTransactionFragment extends Fragment implements View.OnClickL
 
     private void setupTypeTransaction() {
         ArrayList<String> dataTypeTransaction  = new ArrayList<>();
+        dataTypeTransaction.add("Chon loại giao dịch");
         dataTypeTransaction.add("Thu");
         dataTypeTransaction.add("Chi");
         ArrayAdapter<String> adapterTypeTransaction =  new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1,dataTypeTransaction );
@@ -127,4 +178,15 @@ public class StatisTransactionFragment extends Fragment implements View.OnClickL
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        mIdAccountSelected = mDataId.get(i);
+
+        Toast.makeText(getActivity(), "item selected "+mIdAccountSelected, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

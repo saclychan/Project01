@@ -2,6 +2,7 @@ package ngocamha.com.project01.fragment;
 
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +27,9 @@ import ngocamha.com.project01.model.ItemModel;
  */
 
 public class AccountManagerFragment extends Fragment {
+    //BƯỚC 1 : TAOj action
+    public static final String ACTION_ADD_ACCOUNT =  "ngocamha.com.project01.fragment.ACTION_ADD_ACCOUNT";
+
     public AccountManagerFragment(){
 
     }
@@ -93,8 +97,20 @@ public class AccountManagerFragment extends Fragment {
                 mManagementAdapter.notifyDataSetChanged();
                 mEditAddAccount.setText("");
                 mEditAddPrice.setText("");
+
+                sendActionAddAccount(itemnew, "add");
             }
         });
+    }
+
+    private void sendActionAddAccount(ItemModel item, String type) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_ADD_ACCOUNT);
+
+
+        intent.putExtra("newItem", item);
+        intent.putExtra("type", type);
+        getActivity().sendBroadcast(intent);
     }
 
 
